@@ -24,7 +24,7 @@ const authLink = new ApolloLink((operation, forward) => {
     return forward(operation);
 });
 
-const apolloClient = new ApolloClient({
+export const apolloClient = new ApolloClient({
     link: concat(authLink, httpLink),
     cache: new InMemoryCache(),
     // if we want to override the default cache-first policy
@@ -51,7 +51,7 @@ const jobDetailFragment = gql`
     }
 `;
 
-const jobByIdQuery = gql`
+export const jobByIdQuery = gql`
     query JobByID($id: ID!) {
         job(id: $id) {
             ...JobDetail
@@ -60,6 +60,45 @@ const jobByIdQuery = gql`
     ${jobDetailFragment}
 `;
 
+export const createJobMutation = gql`
+    mutation CreateJob ($input: CreateJobInput!) {
+        job: createJob(input: $input) {
+            ...JobDetail
+        }
+    }
+    ${jobDetailFragment}
+`;
+
+export const companyByIdQuery = gql`
+    query CompanyByID($id: ID!) {
+        company(id: $id) {
+            id
+            name
+            description
+            jobs {
+                id
+                date
+                title
+            }
+        }
+    }
+`;
+
+export const jobsQuery = gql`
+    query Jobs {
+        jobs {
+            id
+            date
+            title
+            company {
+                id
+                name
+            }
+        }
+    }
+`;
+
+/*
 export async function createJob({ title, description }) {
     const mutation = gql`
         mutation CreateJob ($input: CreateJobInput!) {
@@ -86,7 +125,9 @@ export async function createJob({ title, description }) {
     });
     return job;
 };
+*/
 
+/*
 export async function getCompany(id) {
     const query = gql`
         query CompanyByID($id: ID!) {
@@ -111,7 +152,9 @@ export async function getCompany(id) {
     });
     return company;
 };
+*/
 
+/*
 export async function getJob(id) {
     // const { job } = await client.request(query, { id });
     // return job;
@@ -121,7 +164,9 @@ export async function getJob(id) {
     });
     return job;
 };
+*/
 
+/*
 export async function getJobs() {
     const query = gql`
         query Jobs {
@@ -145,3 +190,4 @@ export async function getJobs() {
     });
     return jobs;
 };
+*/

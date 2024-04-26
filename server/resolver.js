@@ -1,6 +1,7 @@
 import { GraphQLError } from 'graphql';
 import { createJob, deleteJob, getJob, getJobs, getJobsByCompany, updateJob } from './db/jobs.js';
 import { getCompany } from './db/companies.js';
+// import { companyLoader } from './db/companies.js';
 
 export const resolvers = {
     Query: {
@@ -53,8 +54,10 @@ export const resolvers = {
     },
 
     Job: {
+        // company: (job) => getCompany(job.companyId), // before dataloader
+        // company: (job) => companyLoader.load(job.companyId) // after dataloader, before dataloader be added to context
+        company: (job, _args, { companyLoader } ) => companyLoader.load(job.companyId),
         date: (job) => toIsoDate(job.createdAt),
-        company: (job) => getCompany(job.companyId),
     },
 
     Company: {

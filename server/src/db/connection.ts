@@ -10,5 +10,5 @@ export const connection = knex({
 
 connection.on('query', ({ sql, bindings }) => {
   const query = connection.raw(sql, bindings).toQuery();
-  console.log('[db] calls: ', query);
+  console.log('[db]', query);
 });

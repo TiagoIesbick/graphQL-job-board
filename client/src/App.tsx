@@ -2,20 +2,20 @@ import { ApolloProvider } from '@apollo/client';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Route, Routes } from 'react-router-dom';
-import { getUser } from './lib/auth';
+import { User, getUser } from './lib/auth';
+import { apolloClient } from './lib/graphql/queries';
 import NavBar from './components/NavBar';
 import CompanyPage from './pages/CompanyPage';
 import CreateJobPage from './pages/CreateJobPage';
 import HomePage from './pages/HomePage';
 import JobPage from './pages/JobPage';
 import LoginPage from './pages/LoginPage';
-import { apolloClient } from './lib/graphql/queries';
 
 function App() {
   const navigate = useNavigate();
   const [user, setUser] = useState(getUser);
 
-  const handleLogin = (user) => {
+  const handleLogin = (user: User) => {
     setUser(user);
     navigate('/');
   };

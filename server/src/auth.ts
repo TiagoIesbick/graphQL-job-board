@@ -1,3 +1,4 @@
+import { Request, Response } from 'express';
 import { expressjwt } from 'express-jwt';
 import jwt from 'jsonwebtoken';
 import { getUserByEmail } from './db/users.js';
@@ -10,7 +11,7 @@ export const authMiddleware = expressjwt({
   secret,
 });
 
-export async function handleLogin(req, res) {
+export async function handleLogin(req: Request, res: Response) {
   const { email, password } = req.body;
   const user = await getUserByEmail(email);
   if (!user || user.password !== password) {
@@ -18,6 +19,6 @@ export async function handleLogin(req, res) {
   } else {
     const claims = { sub: user.id, email: user.email };
     const token = jwt.sign(claims, secret);
-    res.json({ token });
+    res.json({ token });  
   }
 }
